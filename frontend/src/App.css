@@ -1,184 +1,268 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
-
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+* {
+  box-sizing: border-box;
 }
 
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #111318;
+  color: #f5f5f5;
 }
 
-#center {
+button {
+  font-family: inherit;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
   display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  border-bottom: 1px solid #292d36;
+  background: #17191f;
 }
 
-#next-steps {
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.header p {
+  margin: 6px 0 0;
+  color: #999fae;
+}
+
+.connection {
   display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
+  align-items: center;
   gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+  color: #b9bfcc;
+  font-size: 14px;
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+.connection-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #35c759;
 }
 
-.ticks {
-  position: relative;
+/* =========================
+   MAIN
+   ========================= */
+
+.main {
+  display: flex;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+/* =========================
+   CARD
+   ========================= */
+
+.card {
   width: 100%;
+  max-width: 700px;
+  background: #191c23;
+  border: 1px solid #2a2e38;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.card-header p {
+  margin: 8px 0 0;
+  color: #999fae;
+}
+
+/* =========================
+   STATUS
+   ========================= */
+
+.status {
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  background: #2a2e38;
+}
+
+.status.idle {
+  color: #35c759;
+}
+
+.status.dispensing {
+  color: #ffb340;
+}
+
+.status.retracting {
+  color: #64a8ff;
+}
+
+.status.fault {
+  color: #ff453a;
+}
+
+/* =========================
+   POSITION
+   ========================= */
+
+.position-section {
+  margin-top: 45px;
+}
+
+.position-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  color: #b9bfcc;
+}
+
+.position-label strong {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 14px;
+  background: #2a2e38;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: #4f8cff;
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+/* =========================
+   CONTROLS
+   ========================= */
+
+.controls {
+  display: flex;
+  gap: 14px;
+  margin-top: 40px;
+}
+
+.controls button {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+/* DISPENSE */
+
+.dispense-button {
+  background: #4f8cff;
+  color: white;
+}
+
+/* RETRACT */
+
+.retract-button {
+  background: #303540;
+  color: white;
+}
+
+/* STOP */
+
+.stop-button {
+  background: #ff453a;
+  color: white;
+}
+
+/* =========================
+   BUTTON HOVER / ACTIVE
+   ========================= */
+
+.controls button:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.controls button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* =========================
+   DISABLED BUTTONS
+   ========================= */
+
+.controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* =========================
+   MESSAGE
+   ========================= */
+
+.message {
+  margin-top: 20px;
+  text-align: center;
+  color: #9298a6;
+  font-size: 14px;
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+  .header {
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
   }
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
+  .main {
+    padding: 30px 16px;
   }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
+
+  .card {
+    padding: 24px;
+  }
+
+  .card-header {
+    flex-direction: column;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .controls button {
+    width: 100%;
   }
 }

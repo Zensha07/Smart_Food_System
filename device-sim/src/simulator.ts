@@ -8,6 +8,7 @@ type PistonState =
 
 let state: PistonState = "IDLE";
 let position = 0;
+let activeInterval: ReturnType<typeof setInterval> | null = null;
 
 const DEVICE_ID = "device-001";
 const MQTT_BROKER = "mqtt://localhost:1883";
@@ -45,12 +46,13 @@ function startDispensing() {
   state = "DISPENSING";
   publishState();
 
-  const interval = setInterval(() => {
+  activeInterval = setInterval(() => {
     position += 10;
 
     if (position >= 100) {
       position = 100;
-      clearInterval(interval);
+      clearInterval(activeInterval!);
+      activeInterval = null;
 
       state = "IDLE";
 
@@ -77,12 +79,13 @@ function retractPiston() {
   state = "RETRACTING";
   publishState();
 
-  const interval = setInterval(() => {
+  activeInterval = setInterval(() => {
     position -= 10;
 
     if (position <= 0) {
       position = 0;
-      clearInterval(interval);
+      clearInterval(activeInterval!);
+      activeInterval = null; 
 
       state = "IDLE";
 
@@ -96,6 +99,23 @@ function retractPiston() {
     printState();
     publishState();
   }, 500);
+}
+
+function stopPiston() {
+  if (activeInterval !== null) {
+    clearInterval(activeInterval);
+    activeInterval = null;
+  }
+
+  if (state === "DISPENSING" || state === "RETRACTING") {
+    state = "IDLE";
+
+    console.log("Piston stopped.");
+    printState();
+    publishState();
+  } else {
+    console.log(`Cannot stop. Current state: ${state}`);
+  }
 }
 
 mqttClient.on("connect", () => {
@@ -126,6 +146,8 @@ mqttClient.on("message", (topic, message) => {
     startDispensing();
   } else if (command === "RETRACT") {
     retractPiston();
+  } else if (command === "STOP") {
+    stopPiston();
   } else {
     console.log(`Unknown command: ${command}`);
   }
