@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "dev": "tsx watch src/simulator.ts",
-  "start": "tsx src/simulator.ts",
-  "typecheck": "tsc --noEmit"
-},
+    "dev": "tsx watch src/simulator.ts",
+    "start": "tsx src/simulator.ts",
+    "typecheck": "tsc --noEmit"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -15,5 +15,8 @@
     "@types/node": "^26.6.2",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "mqtt": "^5.16.0"
   }
 }
