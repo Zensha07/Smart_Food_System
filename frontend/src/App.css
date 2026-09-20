@@ -266,3 +266,131 @@ button {
     width: 100%;
   }
 }
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: #191c23;
+  border: 1px solid #2a2e38;
+  border-radius: 16px;
+  padding: 36px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.auth-card h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 28px;
+}
+
+.auth-subtitle {
+  text-align: center;
+  color: #999fae;
+  margin: 10px 0 30px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #b9bfcc;
+  font-size: 14px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #343945;
+  border-radius: 9px;
+  background: #111318;
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #4f8cff;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 9px;
+  background: #4f8cff;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.auth-button:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.auth-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.auth-message {
+  margin-top: 18px;
+  text-align: center;
+  color: #ffb340;
+  font-size: 14px;
+}
+
+.auth-switch {
+  margin-top: 25px;
+  text-align: center;
+  color: #9298a6;
+  font-size: 14px;
+}
+
+.auth-switch button {
+  border: none;
+  background: none;
+  color: #4f8cff;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #b9bfcc;
+  font-size: 14px;
+}
+
+.logout-button {
+  padding: 8px 14px;
+  border: 1px solid #343945;
+  border-radius: 8px;
+  background: #242832;
+  color: white;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background: #303540;
+}

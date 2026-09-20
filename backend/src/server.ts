@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 import mqtt from "mqtt";
+import pool from "./db.js";
+import authRouter from "./routes/auth.js";
+import { requireAuth } from "./middleware/auth.js";
 
 const app = express();
 const PORT = 3000;
@@ -13,6 +16,7 @@ const stateTopic = `smartfood/${DEVICE_ID}/state`;
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/auth", authRouter);
 
 const mqttClient = mqtt.connect(MQTT_BROKER);
 
@@ -90,7 +94,7 @@ app.get("/api/device/events", (req, res) => {
   });
 });
 
-app.post("/api/device/dispense", (_req, res) => {
+app.post("/api/device/dispense", requireAuth, (_req, res) => {
   mqttClient.publish(commandTopic, "DISPENSE");
 
   res.json({
@@ -99,7 +103,7 @@ app.post("/api/device/dispense", (_req, res) => {
   });
 });
 
-app.post("/api/device/retract", (_req, res) => {
+app.post("/api/device/retract", requireAuth, (_req, res) => {
   mqttClient.publish(commandTopic, "RETRACT");
 
   res.json({
@@ -108,7 +112,7 @@ app.post("/api/device/retract", (_req, res) => {
   });
 });
 
-app.post("/api/device/stop", (_req, res) => {
+app.post("/api/device/stop", requireAuth, (_req, res) => {
   mqttClient.publish(commandTopic, "STOP");
 
   res.json({
@@ -116,6 +120,14 @@ app.post("/api/device/stop", (_req, res) => {
     command: "STOP",
   });
 });
+
+pool.query("SELECT NOW()")
+  .then(() => {
+    console.log("PostgreSQL connected successfully.");
+  })
+  .catch((error) => {
+    console.error("PostgreSQL connection failed:", error.message);
+  });
 
 app.listen(PORT, () => {
   console.log(`Backend running at http://localhost:${PORT}`);
