@@ -20,10 +20,20 @@ app.use("/api/auth", authRouter);
 
 const mqttClient = mqtt.connect(MQTT_BROKER);
 
-let latestDeviceState = {
+interface DeviceState {
+  deviceId: string;
+  state: "IDLE" | "DISPENSING" | "RETRACTING" | "FAULT";
+  position: number;
+  temperature: number;
+  heating: boolean;
+}
+
+let latestDeviceState: DeviceState = {
   deviceId: DEVICE_ID,
   state: "IDLE",
   position: 0,
+  temperature: 25,
+  heating: false,
 };
 
 const sseClients = new Set<express.Response>();
@@ -118,6 +128,24 @@ app.post("/api/device/stop", requireAuth, (_req, res) => {
   res.json({
     success: true,
     command: "STOP",
+  });
+});
+
+app.post("/api/device/heat/start", requireAuth, (_req, res) => {
+  mqttClient.publish(commandTopic, "HEAT_START");
+
+  res.json({
+    success: true,
+    command: "HEAT_START",
+  });
+});
+
+app.post("/api/device/heat/stop", requireAuth, (_req, res) => {
+  mqttClient.publish(commandTopic, "HEAT_STOP");
+
+  res.json({
+    success: true,
+    command: "HEAT_STOP",
   });
 });
 

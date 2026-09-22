@@ -62,7 +62,19 @@ button {
 .main {
   display: flex;
   justify-content: center;
-  padding: 60px 24px;
+  padding: 40px 24px;
+}
+
+.dashboard-container {
+  width: 100%;
+  max-width: 960px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+  width: 100%;
 }
 
 /* =========================
@@ -71,12 +83,14 @@ button {
 
 .card {
   width: 100%;
-  max-width: 700px;
   background: #191c23;
   border: 1px solid #2a2e38;
   border-radius: 16px;
   padding: 32px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card-header {
@@ -88,12 +102,13 @@ button {
 
 .card-header h2 {
   margin: 0;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .card-header p {
   margin: 8px 0 0;
   color: #999fae;
+  font-size: 14px;
 }
 
 /* =========================
@@ -107,9 +122,18 @@ button {
   font-weight: bold;
   letter-spacing: 0.5px;
   background: #2a2e38;
+  white-space: nowrap;
 }
 
 .status.idle {
+  color: #35c759;
+}
+
+.status.heating {
+  color: #ff9f0a;
+}
+
+.status.holding {
   color: #35c759;
 }
 
@@ -126,23 +150,72 @@ button {
 }
 
 /* =========================
-   POSITION
+   TEMPERATURE & POSITION
    ========================= */
 
+.temperature-section,
 .position-section {
-  margin-top: 45px;
+  margin-top: 35px;
+}
+
+.temp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 12px;
+}
+
+.temp-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.temp-value {
+  font-size: 38px;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.temp-unit {
+  font-size: 18px;
+  color: #999fae;
+  font-weight: 600;
+}
+
+.target-badge {
+  font-size: 13px;
+  color: #b9bfcc;
+  background: #242832;
+  border: 1px solid #343945;
+  padding: 5px 12px;
+  border-radius: 8px;
+}
+
+.target-badge strong {
+  color: #ff9f0a;
+}
+
+.temp-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #727988;
 }
 
 .position-label {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   margin-bottom: 12px;
   color: #b9bfcc;
 }
 
 .position-label strong {
   color: #ffffff;
-  font-size: 20px;
+  font-size: 24px;
 }
 
 .progress-bar {
@@ -155,9 +228,16 @@ button {
 
 .progress {
   height: 100%;
-  background: #4f8cff;
   border-radius: 20px;
   transition: width 0.3s ease;
+}
+
+.temp-progress {
+  background: #ff9f0a;
+}
+
+.piston-progress {
+  background: #4f8cff;
 }
 
 /* =========================
@@ -166,19 +246,31 @@ button {
 
 .controls {
   display: flex;
-  gap: 14px;
-  margin-top: 40px;
+  gap: 12px;
+  margin-top: 35px;
 }
 
 .controls button {
   flex: 1;
-  padding: 15px;
+  padding: 14px 10px;
   border: none;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
   cursor: pointer;
   transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+/* HEATING BUTTONS */
+
+.heat-start-button {
+  background: #ff9f0a;
+  color: #111318;
+}
+
+.heat-stop-button {
+  background: #303540;
+  color: white;
 }
 
 /* DISPENSE */
