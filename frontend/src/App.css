@@ -4,9 +4,11 @@
 
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #111318;
-  color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #0b0e14;
+  color: #e6edf3;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 button {
@@ -15,349 +17,781 @@ button {
 
 .app {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* =========================
-   HEADER
-   ========================= */
+/* ==========================================================================
+   1. HEADER & NAVIGATION
+   ========================================================================== */
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 48px;
-  border-bottom: 1px solid #292d36;
-  background: #17191f;
+  padding: 16px 36px;
+  background: #11151f;
+  border-bottom: 1px solid #222938;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #1f2737;
+  border: 1px solid #303d54;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-box {
+  font-weight: 800;
+  font-size: 20px;
+  color: #2f81f7;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.3px;
 }
 
-.header p {
-  margin: 6px 0 0;
-  color: #999fae;
+.brand-sub {
+  margin: 2px 0 0;
+  color: #7d8590;
+  font-size: 12px;
 }
 
-.connection {
+/* MODE SWITCHER */
+
+.mode-switcher {
+  display: flex;
+  background: #181f2c;
+  border: 1px solid #283347;
+  border-radius: 10px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.mode-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #b9bfcc;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: #8b949e;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.mode-btn:hover {
+  color: #e6edf3;
+}
+
+.mode-btn.active {
+  background: #253147;
+  color: #58a6ff;
+  border: 1px solid #3b4d6e;
+}
+
+.mode-icon {
   font-size: 14px;
 }
 
-.connection-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #35c759;
+/* HEADER RIGHT */
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
-/* =========================
-   MAIN
-   ========================= */
+.stop-all-btn {
+  background: #da3633;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.stop-all-btn:hover {
+  opacity: 0.9;
+}
+
+.stop-all-btn:active {
+  transform: scale(0.97);
+}
+
+.connection-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #2a3447;
+  background: #141b27;
+}
+
+.connection-pill.online {
+  color: #3fb950;
+}
+
+.connection-pill.offline {
+  color: #f85149;
+}
+
+.connection-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3fb950;
+}
+
+.connection-pill.offline .connection-dot {
+  background: #f85149;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 8px;
+  border-left: 1px solid #252d3d;
+}
+
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #242c3d;
+  color: #58a6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  border: 1px solid #38455e;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6edf3;
+  line-height: 1.2;
+}
+
+.logout-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 2px;
+  color: #7d8590;
+  font-size: 11px;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.logout-link:hover {
+  color: #f85149;
+}
+
+/* ==========================================================================
+   2. SUBHEADER: TELEMETRY & SAFETY INTERLOCK BAR
+   ========================================================================== */
+
+.telemetry-bar {
+  display: flex;
+  align-items: center;
+  background: #0f141f;
+  border-bottom: 1px solid #1c2433;
+  padding: 10px 36px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.telemetry-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.telemetry-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7d8590;
+  letter-spacing: 0.5px;
+}
+
+.telemetry-val {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.text-success {
+  color: #3fb950;
+}
+
+.text-warning {
+  color: #d29922;
+}
+
+.text-danger {
+  color: #f85149;
+}
+
+.text-muted {
+  color: #7d8590;
+}
+
+.telemetry-divider {
+  width: 1px;
+  height: 18px;
+  background: #242c3d;
+}
+
+.sensor-toggle-btn,
+.fault-toggle-btn {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.sensor-toggle-btn.plate-ok {
+  background: #14281c;
+  color: #3fb950;
+  border-color: #238636;
+}
+
+.sensor-toggle-btn.plate-missing {
+  background: #2d1617;
+  color: #f85149;
+  border-color: #da3633;
+}
+
+.fault-toggle-btn {
+  background: #1a2230;
+  color: #8b949e;
+  border-color: #2e3a4e;
+}
+
+.fault-toggle-btn.fault-active {
+  background: #da3633;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   3. BANNERS & NOTICES
+   ========================================================================== */
+
+.alert-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 36px;
+  font-size: 13px;
+  border-bottom: 1px solid transparent;
+}
+
+.alert-banner.danger {
+  background: #3c1417;
+  color: #ff7b72;
+  border-color: #6e1c21;
+}
+
+.alert-icon {
+  font-size: 20px;
+}
+
+.info-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #121d2f;
+  border: 1px solid #1f3a60;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: #79c0ff;
+}
+
+.info-badge {
+  background: #1f3a60;
+  color: #58a6ff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   4. MAIN DASHBOARD CONTAINER & CARDS
+   ========================================================================== */
 
 .main {
+  flex: 1;
   display: flex;
   justify-content: center;
-  padding: 40px 24px;
+  padding: 32px 24px;
 }
 
 .dashboard-container {
   width: 100%;
-  max-width: 960px;
+  max-width: 1060px;
 }
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 24px;
-  width: 100%;
 }
 
-/* =========================
-   CARD
-   ========================= */
+.dashboard-grid.single-column {
+  grid-template-columns: 1fr;
+  max-width: 640px;
+  margin: 0 auto;
+}
 
 .card {
-  width: 100%;
-  background: #191c23;
-  border: 1px solid #2a2e38;
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  background: #131722;
+  border: 1px solid #232a3b;
+  border-radius: 14px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
 }
 
-.card-header {
+.card-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 20px;
+  gap: 14px;
 }
 
-.card-header h2 {
+.card-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #58a6ff;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.card-top h2 {
   margin: 0;
-  font-size: 22px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
 }
 
-.card-header p {
-  margin: 8px 0 0;
-  color: #999fae;
-  font-size: 14px;
+.card-desc {
+  margin: 4px 0 0;
+  color: #7d8590;
+  font-size: 13px;
 }
 
-/* =========================
-   STATUS
-   ========================= */
+/* STATUS BADGES */
 
-.status {
-  padding: 7px 12px;
+.status-badge {
+  padding: 5px 12px;
   border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-  background: #2a2e38;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  border: 1px solid transparent;
   white-space: nowrap;
 }
 
-.status.idle {
-  color: #35c759;
+.status-badge.status-idle,
+.status-badge.status-standby {
+  background: #14281c;
+  color: #3fb950;
+  border-color: #238636;
 }
 
-.status.heating {
-  color: #ff9f0a;
+.status-badge.status-heating {
+  background: #2f1d0b;
+  color: #f0883e;
+  border-color: #9e4c00;
 }
 
-.status.holding {
-  color: #35c759;
+.status-badge.status-cooling {
+  background: #11263d;
+  color: #58a6ff;
+  border-color: #1f6feb;
 }
 
-.status.dispensing {
-  color: #ffb340;
+.status-badge.status-holding {
+  background: #14281c;
+  color: #3fb950;
+  border-color: #238636;
 }
 
-.status.retracting {
-  color: #64a8ff;
+.status-badge.status-dispensing {
+  background: #292410;
+  color: #d29922;
+  border-color: #7d5e08;
 }
 
-.status.fault {
-  color: #ff453a;
+.status-badge.status-retracting {
+  background: #11263d;
+  color: #58a6ff;
+  border-color: #1f6feb;
 }
 
-/* =========================
-   TEMPERATURE & POSITION
-   ========================= */
-
-.temperature-section,
-.position-section {
-  margin-top: 35px;
+.status-badge.status-fault {
+  background: #3c1417;
+  color: #f85149;
+  border-color: #da3633;
 }
 
-.temp-header {
+/* ==========================================================================
+   5. TEMPERATURE METRICS & GAUGES
+   ========================================================================== */
+
+.temp-block,
+.position-block {
+  margin-top: 26px;
+}
+
+.temp-hero {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
-.temp-readout {
+.temp-number-group {
   display: flex;
   align-items: baseline;
   gap: 4px;
 }
 
-.temp-value {
-  font-size: 38px;
-  font-weight: bold;
+.temp-val {
+  font-size: 46px;
+  font-weight: 800;
   color: #ffffff;
   line-height: 1;
 }
 
-.temp-unit {
-  font-size: 18px;
-  color: #999fae;
+.temp-deg {
+  font-size: 22px;
   font-weight: 600;
+  color: #7d8590;
 }
 
-.target-badge {
-  font-size: 13px;
-  color: #b9bfcc;
-  background: #242832;
-  border: 1px solid #343945;
-  padding: 5px 12px;
+.temp-metrics-side {
+  display: flex;
+  gap: 8px;
+}
+
+.metric-pill {
+  background: #1a202e;
+  border: 1px solid #273347;
   border-radius: 8px;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 11px;
 }
 
-.target-badge strong {
-  color: #ff9f0a;
+.metric-pill .lbl {
+  color: #7d8590;
+  margin-bottom: 2px;
 }
 
-.temp-scale-labels {
+.metric-pill strong {
+  font-size: 13px;
+  color: #e6edf3;
+}
+
+/* METER TRACK & FILL */
+
+.meter-container {
+  margin-top: 10px;
+}
+
+.meter-track {
+  width: 100%;
+  height: 12px;
+  background: #1d2331;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #262f42;
+}
+
+.meter-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.35s ease;
+}
+
+.meter-fill.heating {
+  background: #f0883e;
+}
+
+.meter-fill.cooling {
+  background: #58a6ff;
+}
+
+.meter-fill.standby {
+  background: #3fb950;
+}
+
+.meter-fill.piston {
+  background: #2f81f7;
+}
+
+.meter-scale {
   display: flex;
   justify-content: space-between;
   margin-top: 8px;
-  font-size: 12px;
-  color: #727988;
+  font-size: 11px;
+  color: #6e7681;
 }
 
-.position-label {
+.cooldown-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 8px 12px;
+  background: #11263d;
+  border: 1px solid #1f6feb;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #79c0ff;
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #58a6ff;
+}
+
+/* ==========================================================================
+   6. PORTION SELECTION (PHASE H)
+   ========================================================================== */
+
+.portion-section {
+  margin-top: 20px;
+}
+
+.section-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7d8590;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.portion-chips {
+  display: flex;
+  gap: 8px;
+}
+
+.portion-chip {
+  flex: 1;
+  padding: 8px;
+  background: #181f2c;
+  border: 1px solid #283347;
+  border-radius: 8px;
+  color: #8b949e;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.portion-chip:hover:not(:disabled) {
+  border-color: #3b4d6e;
+  color: #e6edf3;
+}
+
+.portion-chip.active {
+  background: #1c2b45;
+  color: #58a6ff;
+  border-color: #388bfd;
+}
+
+.portion-chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* POSITION SECTION */
+
+.position-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 12px;
-  color: #b9bfcc;
+  margin-bottom: 10px;
 }
 
-.position-label strong {
-  color: #ffffff;
+.pos-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #8b949e;
+}
+
+.pos-val {
   font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
 }
 
-.progress-bar {
-  width: 100%;
-  height: 14px;
-  background: #2a2e38;
-  border-radius: 20px;
-  overflow: hidden;
+.pos-sub {
+  font-size: 12px;
+  color: #7d8590;
+  margin-left: 4px;
 }
 
-.progress {
-  height: 100%;
-  border-radius: 20px;
-  transition: width 0.3s ease;
-}
+/* ==========================================================================
+   7. INTERLOCK WARNING BOXES
+   ========================================================================== */
 
-.temp-progress {
-  background: #ff9f0a;
-}
-
-.piston-progress {
-  background: #4f8cff;
-}
-
-/* =========================
-   CONTROLS
-   ========================= */
-
-.controls {
+.interlock-warning {
   display: flex;
-  gap: 12px;
-  margin-top: 35px;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 10px 14px;
+  background: #251e13;
+  border: 1px solid #5a3e1b;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #d29922;
+  line-height: 1.4;
 }
 
-.controls button {
+.interlock-warning.danger {
+  background: #2d1617;
+  border-color: #6e1c21;
+  color: #ff7b72;
+}
+
+.interlock-icon {
+  font-size: 15px;
+  margin-top: -1px;
+}
+
+/* ==========================================================================
+   8. ACTION BUTTONS
+   ========================================================================== */
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.btn {
   flex: 1;
-  padding: 14px 10px;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: bold;
+  padding: 13px 12px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.1s ease;
+  border: none;
+  transition: opacity 0.15s ease, transform 0.1s ease;
 }
 
-/* HEATING BUTTONS */
-
-.heat-start-button {
-  background: #ff9f0a;
-  color: #111318;
+.btn:hover:not(:disabled) {
+  opacity: 0.9;
 }
 
-.heat-stop-button {
-  background: #303540;
-  color: white;
-}
-
-/* DISPENSE */
-
-.dispense-button {
-  background: #4f8cff;
-  color: white;
-}
-
-/* RETRACT */
-
-.retract-button {
-  background: #303540;
-  color: white;
-}
-
-/* STOP */
-
-.stop-button {
-  background: #ff453a;
-  color: white;
-}
-
-/* =========================
-   BUTTON HOVER / ACTIVE
-   ========================= */
-
-.controls button:hover:not(:disabled) {
-  opacity: 0.85;
-}
-
-.controls button:active:not(:disabled) {
+.btn:active:not(:disabled) {
   transform: scale(0.98);
 }
 
-/* =========================
-   DISABLED BUTTONS
-   ========================= */
-
-.controls button:disabled {
+.btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;
 }
 
-/* =========================
-   MESSAGE
-   ========================= */
-
-.message {
-  margin-top: 20px;
-  text-align: center;
-  color: #9298a6;
-  font-size: 14px;
+.btn-primary.heat-start {
+  background: #d29922;
+  color: #131722;
 }
 
-/* =========================
-   MOBILE
-   ========================= */
-
-@media (max-width: 600px) {
-  .header {
-    padding: 20px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .main {
-    padding: 30px 16px;
-  }
-
-  .card {
-    padding: 24px;
-  }
-
-  .card-header {
-    flex-direction: column;
-  }
-
-  .controls {
-    flex-direction: column;
-  }
-
-  .controls button {
-    width: 100%;
-  }
+.btn-primary.dispense {
+  background: #2f81f7;
+  color: #ffffff;
 }
+
+.btn-secondary {
+  background: #212836;
+  border: 1px solid #303b50;
+  color: #e6edf3;
+}
+
+.btn-danger {
+  background: #da3633;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   9. SYSTEM MESSAGE FOOTER
+   ========================================================================== */
+
+.system-message-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  padding: 12px 18px;
+  background: #11151f;
+  border: 1px solid #202637;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #8b949e;
+}
+
+.msg-icon {
+  color: #58a6ff;
+  font-weight: bold;
+}
+
+/* ==========================================================================
+   10. AUTH PAGE (LOGIN & REGISTRATION)
+   ========================================================================== */
 
 .auth-page {
   min-height: 100vh;
@@ -365,71 +799,78 @@ button {
   justify-content: center;
   align-items: center;
   padding: 24px;
+  background: #0b0e14;
 }
 
 .auth-card {
   width: 100%;
-  max-width: 420px;
-  background: #191c23;
-  border: 1px solid #2a2e38;
-  border-radius: 16px;
+  max-width: 400px;
+  background: #131722;
+  border: 1px solid #232a3b;
+  border-radius: 14px;
   padding: 36px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
 }
 
 .auth-card h1 {
   margin: 0;
   text-align: center;
-  font-size: 28px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
 }
 
 .auth-subtitle {
   text-align: center;
-  color: #999fae;
-  margin: 10px 0 30px;
+  color: #7d8590;
+  margin: 8px 0 28px;
+  font-size: 13px;
 }
 
 .input-group {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .input-group label {
   display: block;
-  margin-bottom: 8px;
-  color: #b9bfcc;
-  font-size: 14px;
+  margin-bottom: 7px;
+  color: #8b949e;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .input-group input {
   width: 100%;
-  padding: 13px 14px;
-  border: 1px solid #343945;
-  border-radius: 9px;
-  background: #111318;
-  color: white;
-  font-size: 15px;
+  padding: 11px 13px;
+  border: 1px solid #2c3649;
+  border-radius: 8px;
+  background: #0d111a;
+  color: #ffffff;
+  font-size: 14px;
   outline: none;
+  transition: border-color 0.15s ease;
 }
 
 .input-group input:focus {
-  border-color: #4f8cff;
+  border-color: #2f81f7;
 }
 
 .auth-button {
   width: 100%;
-  padding: 14px;
-  margin-top: 5px;
+  padding: 12px;
+  margin-top: 8px;
   border: none;
-  border-radius: 9px;
-  background: #4f8cff;
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
+  border-radius: 8px;
+  background: #2f81f7;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
+  transition: opacity 0.15s ease;
 }
 
 .auth-button:hover:not(:disabled) {
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 .auth-button:disabled {
@@ -438,51 +879,68 @@ button {
 }
 
 .auth-message {
-  margin-top: 18px;
+  margin-top: 16px;
   text-align: center;
-  color: #ffb340;
-  font-size: 14px;
+  color: #d29922;
+  font-size: 13px;
 }
 
 .auth-switch {
-  margin-top: 25px;
+  margin-top: 24px;
   text-align: center;
-  color: #9298a6;
-  font-size: 14px;
+  color: #7d8590;
+  font-size: 13px;
 }
 
 .auth-switch button {
   border: none;
   background: none;
-  color: #4f8cff;
+  color: #58a6ff;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 13px;
 }
 
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
+/* ==========================================================================
+   11. RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
 
-.user-section {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #b9bfcc;
-  font-size: 14px;
-}
+@media (max-width: 900px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 20px;
+    gap: 14px;
+  }
 
-.logout-button {
-  padding: 8px 14px;
-  border: 1px solid #343945;
-  border-radius: 8px;
-  background: #242832;
-  color: white;
-  cursor: pointer;
-}
+  .mode-switcher {
+    width: 100%;
+  }
 
-.logout-button:hover {
-  background: #303540;
+  .mode-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .telemetry-bar {
+    padding: 12px 20px;
+    gap: 12px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
 }

@@ -26,6 +26,9 @@ interface DeviceState {
   position: number;
   temperature: number;
   heating: boolean;
+  plateDetected?: boolean;
+  cooldownActive?: boolean;
+  targetPortion?: number;
 }
 
 let latestDeviceState: DeviceState = {
@@ -34,6 +37,9 @@ let latestDeviceState: DeviceState = {
   position: 0,
   temperature: 25,
   heating: false,
+  plateDetected: true,
+  cooldownActive: false,
+  targetPortion: 100,
 };
 
 const sseClients = new Set<express.Response>();
@@ -104,12 +110,15 @@ app.get("/api/device/events", (req, res) => {
   });
 });
 
-app.post("/api/device/dispense", requireAuth, (_req, res) => {
-  mqttClient.publish(commandTopic, "DISPENSE");
+app.post("/api/device/dispense", requireAuth, (req, res) => {
+  const portion = Number(req.body?.portion) || 100;
+  const command = portion < 100 ? `DISPENSE:${portion}` : "DISPENSE";
+  mqttClient.publish(commandTopic, command);
 
   res.json({
     success: true,
-    command: "DISPENSE",
+    command,
+    portion,
   });
 });
 
@@ -131,6 +140,15 @@ app.post("/api/device/stop", requireAuth, (_req, res) => {
   });
 });
 
+app.post("/api/device/stop-all", requireAuth, (_req, res) => {
+  mqttClient.publish(commandTopic, "STOP_ALL");
+
+  res.json({
+    success: true,
+    command: "STOP_ALL",
+  });
+});
+
 app.post("/api/device/heat/start", requireAuth, (_req, res) => {
   mqttClient.publish(commandTopic, "HEAT_START");
 
@@ -146,6 +164,30 @@ app.post("/api/device/heat/stop", requireAuth, (_req, res) => {
   res.json({
     success: true,
     command: "HEAT_STOP",
+  });
+});
+
+app.post("/api/device/plate", requireAuth, (req, res) => {
+  const detected = req.body?.detected !== false;
+  const command = detected ? "SET_PLATE:TRUE" : "SET_PLATE:FALSE";
+  mqttClient.publish(commandTopic, command);
+
+  res.json({
+    success: true,
+    command,
+    plateDetected: detected,
+  });
+});
+
+app.post("/api/device/fault", requireAuth, (req, res) => {
+  const fault = req.body?.fault === true;
+  const command = fault ? "TRIGGER_FAULT" : "CLEAR_FAULT";
+  mqttClient.publish(commandTopic, command);
+
+  res.json({
+    success: true,
+    command,
+    fault,
   });
 });
 
