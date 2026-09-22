@@ -10,6 +10,11 @@ let state: PistonState = "IDLE";
 let position = 0;
 let activeInterval: ReturnType<typeof setInterval> | null = null;
 
+let temperature = 25;
+let heating = false;
+const TARGET_TEMPERATURE = 60;
+let heatingInterval: ReturnType<typeof setInterval> | null = null;
+
 const DEVICE_ID = "device-001";
 const MQTT_BROKER = "mqtt://localhost:1883";
 
@@ -20,7 +25,7 @@ const mqttClient = mqtt.connect(MQTT_BROKER);
 
 function printState() {
   console.log(
-    `State: ${state} | Position: ${position}%`
+    `State: ${state} | Position: ${position}% | Temp: ${temperature}°C | Heating: ${heating}`
   );
 }
 
@@ -31,6 +36,8 @@ function publishState() {
       deviceId: DEVICE_ID,
       state,
       position,
+      temperature,
+      heating,
     })
   );
 }
@@ -118,6 +125,60 @@ function stopPiston() {
   }
 }
 
+function startHeating() {
+  if (heating) {
+    console.log("Heating already in progress.");
+    return;
+  }
+
+  if (temperature >= TARGET_TEMPERATURE) {
+    console.log(
+      `Temperature already at or above target (${TARGET_TEMPERATURE}°C).`
+    );
+    return;
+  }
+
+  console.log("Starting heating...");
+  heating = true;
+  printState();
+  publishState();
+
+  heatingInterval = setInterval(() => {
+    temperature += 5;
+
+    if (temperature >= TARGET_TEMPERATURE) {
+      temperature = TARGET_TEMPERATURE;
+      clearInterval(heatingInterval!);
+      heatingInterval = null;
+      heating = false;
+
+      console.log("Target temperature reached.");
+      printState();
+      publishState();
+      return;
+    }
+
+    printState();
+    publishState();
+  }, 1000);
+}
+
+function stopHeating() {
+  if (heatingInterval !== null) {
+    clearInterval(heatingInterval);
+    heatingInterval = null;
+  }
+
+  if (heating) {
+    heating = false;
+    console.log("Heating stopped.");
+    printState();
+    publishState();
+  } else {
+    console.log("Heating is already off.");
+  }
+}
+
 mqttClient.on("connect", () => {
   console.log("Connected to MQTT broker.");
 
@@ -148,6 +209,10 @@ mqttClient.on("message", (topic, message) => {
     retractPiston();
   } else if (command === "STOP") {
     stopPiston();
+  } else if (command === "HEAT_START") {
+    startHeating();
+  } else if (command === "HEAT_STOP") {
+    stopHeating();
   } else {
     console.log(`Unknown command: ${command}`);
   }
